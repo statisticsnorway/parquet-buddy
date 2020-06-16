@@ -12,9 +12,9 @@
     </properties>
 
     <scm>
-        <connection>scm:git:git://github.com/statisticsnorway/parquet-churn.git</connection>
-        <developerConnection>scm:git:git@github.com:statisticsnorway/parquet-churn.git</developerConnection>
-        <url>https://github.com/statisticsnorway/parquet-churn</url>
+        <connection>scm:git:git://github.com/statisticsnorway/parquet-buddy.git</connection>
+        <developerConnection>scm:git:git@github.com:statisticsnorway/parquet-buddy.git</developerConnection>
+        <url>https://github.com/statisticsnorway/parquet-buddy</url>
         <tag>parquet-buddy-0.0.1</tag>
     </scm>
 
