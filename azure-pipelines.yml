@@ -9,7 +9,9 @@ jobs:
     variables:
       MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
       MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)' 
-    steps:    
+    steps:  
+
+      #Cache maven artifacts  
       - task: Cache@2
         displayName: Cache Maven local repo
         inputs:
@@ -19,12 +21,15 @@ jobs:
             maven
           path: $(MAVEN_CACHE_FOLDER)
       
+      #Build
       - task: Maven@3
         displayName: 'Compile'
         inputs:
            goals: 'compile'
            options: '-DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
            mavenOptions: '$(MAVEN_OPTS)'
+      
+      #Run tests
       - task: Maven@3
         displayName: 'Test'
         inputs:
