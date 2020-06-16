@@ -2,6 +2,7 @@ package no.ssb.dapla.parquet;
 
 import org.apache.parquet.schema.MessageType;
 import org.apache.parquet.schema.MessageTypeParser;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -66,6 +67,7 @@ class DataTest {
         Data.writeJson(json, path, schema);
     }
 
+    @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
     public void thatReadColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
@@ -73,6 +75,7 @@ class DataTest {
         System.out.println("Read: " + objects.size() + " columns");
     }
 
+    @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
     public void thatReadUlidColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
@@ -80,6 +83,7 @@ class DataTest {
         System.out.println("Read: " + objects.size() + " columns");
     }
 
+    @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
     public void thatReadFoedselsnummerColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
@@ -92,6 +96,7 @@ class DataTest {
      * repeated binary array (STRING);
      * }
      */
+    @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
     public void thatReadRepeatedBinaryColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
