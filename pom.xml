@@ -4,7 +4,7 @@
 
     <groupId>no.ssb.dapla.parquet</groupId>
     <artifactId>parquet-buddy</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,7 +15,7 @@
         <connection>scm:git:git://github.com/statisticsnorway/parquet-buddy.git</connection>
         <developerConnection>scm:git:git@github.com:statisticsnorway/parquet-buddy.git</developerConnection>
         <url>https://github.com/statisticsnorway/parquet-buddy</url>
-        <tag>parquet-buddy-0.0.5</tag>
+        <tag>parquet-buddy-0.0.1</tag>
     </scm>
 
     <dependencies>
