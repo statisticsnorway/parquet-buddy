@@ -17,7 +17,7 @@ jobs:
         displayName: 'Test'
         inputs:
            goals: 'verify test'
-           options: '-P coverage --batch-mode'
+           options: '--batch-mode'
       
       - task: Maven@3
         displayName: 'Publish'
