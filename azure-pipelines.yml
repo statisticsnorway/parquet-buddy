@@ -3,7 +3,7 @@ trigger:
 
 jobs:
   - job: testAndBuild
-    container: maven:3-jdk-14
+    container: maven:3-jdk-13
     pool:
       vmImage: 'ubuntu-latest'
     steps:    
