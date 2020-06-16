@@ -7,4 +7,4 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-      - script: which java && java --version
+      - script: printenv && java --version
