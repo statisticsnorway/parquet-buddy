@@ -4,7 +4,7 @@
 
     <groupId>no.ssb.dapla.parquet</groupId>
     <artifactId>parquet-buddy</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,7 +15,7 @@
         <connection>scm:git:git://github.com/statisticsnorway/parquet-churn.git</connection>
         <developerConnection>scm:git:git@github.com:statisticsnorway/parquet-churn.git</developerConnection>
         <url>https://github.com/statisticsnorway/parquet-churn</url>
-        <tag>HEAD</tag>
+        <tag>parquet-buddy-0.0.1</tag>
     </scm>
 
     <dependencies>
