@@ -26,6 +26,12 @@ jobs:
             maven
           path: $(MAVEN_CACHE_FOLDER)
       
+      #Authenticate with maven
+      - task: MavenAuthenticate@0
+        displayName: 'Authenticate'
+        inputs:
+          mavenServiceConnections: 'mvnSsbBipPublic, mvnSsbBipReleases, mvnSsbBipSnapshots'
+
       #Build
       - task: Maven@3
         displayName: 'Compile'
