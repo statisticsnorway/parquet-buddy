@@ -37,7 +37,7 @@ jobs:
         displayName: 'Compile'
         inputs:
            goals: 'compile'
-           options: '-p ssb-bip -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
+           options: '-P ssb-bip -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
            mavenOptions: '$(MAVEN_OPTS)'
       
       #Run tests
@@ -45,7 +45,7 @@ jobs:
         displayName: 'Test'
         inputs:
            goals: 'verify test'
-           options: '-p ssb-bip --batch-mode'
+           options: '-P ssb-bip --batch-mode'
            mavenOptions: '$(MAVEN_OPTS)'
       
       #Deploy artifact upon creating a tag
@@ -54,5 +54,5 @@ jobs:
         condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
         inputs:
            goals: 'clean deploy'
-           options: '-p ssb-bip -DskipTests=true --batch-mode'
+           options: '-P ssb-bip -DskipTests=true --batch-mode'
            mavenOptions: '$(MAVEN_OPTS)'
