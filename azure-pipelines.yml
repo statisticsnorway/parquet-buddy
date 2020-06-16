@@ -6,23 +6,37 @@ jobs:
     container: maven:3-jdk-13
     pool:
       vmImage: 'ubuntu-latest'
+    variables:
+      MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+      MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)' 
     steps:    
-      - script: printenv && java --version
+      - task: Cache@2
+        displayName: Cache Maven local repo
+        inputs:
+          key: 'maven | "$(Agent.OS)" | **/pom.xml'
+          restoreKeys: |
+            maven | "$(Agent.OS)"
+            maven
+          path: $(MAVEN_CACHE_FOLDER)
+      
       - task: Maven@3
         displayName: 'Compile'
         inputs:
            goals: 'compile'
            options: '-DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
+           mavenOptions: '$(MAVEN_OPTS)'
       - task: Maven@3
         displayName: 'Test'
         inputs:
            goals: 'verify test'
            options: '--batch-mode'
+           mavenOptions: '$(MAVEN_OPTS)'
       
+      #Deploy artifact upon creating a tag
       - task: Maven@3
         displayName: 'Publish'
-        #Upon tagging
         condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/tags/*'))
         inputs:
            goals: 'clean deploy'
            options: '-DskipTests=true --batch-mode'
+           mavenOptions: '$(MAVEN_OPTS)'
