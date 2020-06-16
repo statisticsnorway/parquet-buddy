@@ -1,5 +1,7 @@
 trigger:
-  - master
+  branches:
+    include:
+      - '*'
 
 jobs:
   - job: testAndBuild
