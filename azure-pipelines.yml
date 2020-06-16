@@ -6,5 +6,10 @@ jobs:
     container: maven:3-jdk-14
     pool:
       vmImage: 'ubuntu-latest'
-    steps:
-      - script: printenv && java --version
+    steps:    
+      - script: printenv && java --version        
+      - task: Maven@3
+        displayName: 'mvn compile'
+        inputs:
+           goals: 'compile'
+           options: '-P ssb-bip -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
