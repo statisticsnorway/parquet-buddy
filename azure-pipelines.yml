@@ -12,4 +12,4 @@ jobs:
         displayName: 'mvn compile'
         inputs:
            goals: 'compile'
-           options: '-P ssb-bip -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
+           options: '-DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
