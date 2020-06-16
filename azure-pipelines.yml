@@ -7,9 +7,22 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     steps:    
-      - script: printenv && java --version        
+      - script: printenv && java --version
       - task: Maven@3
-        displayName: 'mvn compile'
+        displayName: 'Compile'
         inputs:
            goals: 'compile'
            options: '-DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
+      - task: Maven@3
+        displayName: 'Test'
+        inputs:
+           goals: 'verify test'
+           options: '-P coverage --batch-mode'
+      
+      - task: Maven@3
+        displayName: 'Publish'
+        #Upon tagging
+        condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/tags/*'))
+        inputs:
+           goals: 'clean deploy'
+           options: '-DskipTests=true --batch-mode'
