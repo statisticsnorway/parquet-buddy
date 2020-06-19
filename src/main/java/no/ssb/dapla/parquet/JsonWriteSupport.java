@@ -12,7 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonWriteSupport extends WriteSupport<String> {
+/**
+ * JsonWriteSupport transforms json string objects into parquet records
+ */
+class JsonWriteSupport extends WriteSupport<String> {
 
     private ValidatingRecordConsumer recordConsumer;
     private MessageType schema;

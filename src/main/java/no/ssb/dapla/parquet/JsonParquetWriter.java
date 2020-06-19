@@ -7,7 +7,11 @@ import org.apache.parquet.schema.MessageType;
 
 import java.io.IOException;
 
-public class JsonParquetWriter extends ParquetWriter<String> {
+/**
+ * JsonParquetWriter overrides {@link ParquetWriter} and uses an instance of {@link JsonWriteSupport} to enable writing
+ * json.
+ */
+class JsonParquetWriter extends ParquetWriter<String> {
     public JsonParquetWriter(java.nio.file.Path path, MessageType schema) throws IOException {
         this(new Path(path.toUri()), schema, true, CompressionCodecName.SNAPPY);
     }
