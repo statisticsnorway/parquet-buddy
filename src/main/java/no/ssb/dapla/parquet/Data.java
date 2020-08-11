@@ -53,7 +53,7 @@ public class Data {
      * </pre>
      * To read all values in the column streetName (root -> person -> address -> array -> streetName) create a glob that
      * matches the path to that column, e.g. {@literal "**}/streetName" or "person/address/streetName". Note: 'root' and
-     * 'array' are considered as part of the path to a column.
+     * 'array' are not considered part of the path to a column.
      *
      * @param data              a parquet file as a {@link SeekableByteChannel}
      * @param columnGlobPattern a glob that should match a single column
