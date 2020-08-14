@@ -1,21 +1,38 @@
 package no.ssb.dapla.parquet;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.parquet.schema.MessageType;
 import org.apache.parquet.schema.MessageTypeParser;
+import org.json.JSONException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.SeekableByteChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
 class DataTest {
 
+    private Path testDir;
+
+    @BeforeEach
+    void setUp() throws IOException {
+        testDir = Files.createTempDirectory("DataTest");
+    }
+
+    @AfterEach
+    void tearDown() throws IOException {
+        FileUtils.deleteDirectory(testDir.toFile());
+    }
+
     @Test
-    public void thatWriteWorks() {
-        Path path = Path.of(String.format("/tmp/%s-test-json.parquet", System.currentTimeMillis()));
+    void thatWriteWorks() {
+        Path path = testDir.resolve(Path.of("thatWriteWorks.parquet"));
 
         String schemaString = """
                 message root {
@@ -69,7 +86,7 @@ class DataTest {
 
     @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
-    public void thatReadColumnWorks() throws IOException {
+    void thatReadColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
         List<Object> objects = Data.readColumn(fileChannel, "/dokumentForHendelse/hendelse/egenskapshendelse/kontaktinformasjonForDoedsbo/advokat/personnavn/fornavn");
         System.out.println("Read: " + objects.size() + " columns");
@@ -77,7 +94,7 @@ class DataTest {
 
     @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
-    public void thatReadUlidColumnWorks() throws IOException {
+    void thatReadUlidColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
         List<Object> objects = Data.readColumn(fileChannel, "/metadata/ulid");
         System.out.println("Read: " + objects.size() + " columns");
@@ -85,7 +102,7 @@ class DataTest {
 
     @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
-    public void thatReadFoedselsnummerColumnWorks() throws IOException {
+    void thatReadFoedselsnummerColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
         List<Object> objects = Data.readColumn(fileChannel, "/dokumentForHendelse/hendelse/egenskapshendelse/identifikasjonsnummer/foedselsEllerDNummer");
         System.out.println("Read: " + objects.size() + " columns");
@@ -98,7 +115,7 @@ class DataTest {
      */
     @Disabled("Replace me with test utilizing Data.writeJson")
     @Test
-    public void thatReadRepeatedBinaryColumnWorks() throws IOException {
+    void thatReadRepeatedBinaryColumnWorks() throws IOException {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("src", "test", "resources", "ske-freg-playground-1589549835139.parquet"));
         List<Object> objects = Data.readColumn(fileChannel, "/folkeregisterperson/**/postadresseIFrittFormat/adresselinje");
         System.out.println("Read: " + objects.size() + " columns");
