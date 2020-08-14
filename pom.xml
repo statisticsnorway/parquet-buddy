@@ -9,6 +9,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jdk.version>14</jdk.version>
     </properties>
 
     <scm>
@@ -67,7 +68,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>13</release>
+                    <release>${jdk.version}</release>
                     <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
