@@ -147,21 +147,15 @@ public class File {
      */
     public static void writeJson(InputStream json, Path path, MessageType schema) {
         try (JsonParquetWriter writer = new JsonParquetWriter(path, schema)) {
-
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
             try (JsonReader reader = new JsonReader(new InputStreamReader(json))) {
-
                 reader.beginArray();
-
                 while (reader.hasNext()) {
                     Object o = gson.fromJson(reader, Object.class);
                     writer.write(gson.toJson(o));
                 }
-
                 reader.endArray();
             }
-
         } catch (IOException e) {
             throw new RuntimeException(String.format("Error while writing json. Path: %s", path), e);
         }
