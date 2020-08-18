@@ -2,7 +2,6 @@ package no.ssb.dapla.parquet;
 
 import org.apache.parquet.column.page.PageReadStore;
 import org.apache.parquet.example.data.Group;
-import org.apache.parquet.example.data.simple.SimpleGroupFactory;
 import org.apache.parquet.example.data.simple.convert.GroupRecordConverter;
 import org.apache.parquet.hadoop.ParquetFileReader;
 import org.apache.parquet.io.ColumnIOFactory;
@@ -14,27 +13,38 @@ import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
 import java.util.Map;
 
-public class DataStream implements AutoCloseable {
+/**
+ * This class represents a continuous stream of records from a parquet file.
+ */
+public class RecordStream implements AutoCloseable {
 
     private final DataStreamRowGroupReader rowGroupReader;
 
-    DataStream(SeekableByteChannel data, MessageType schema) throws IOException {
-        this.rowGroupReader = new DataStreamRowGroupReader(data, schema);
+    RecordStream(SeekableByteChannel file, MessageType schema) throws IOException {
+        this.rowGroupReader = new DataStreamRowGroupReader(file, schema);
     }
 
+    /**
+     * Read the next record from this stream of records.
+     *
+     * @return the next record in the stream, or null if the end of the stream has been reached.
+     * @throws IOException if an error occurs while reading.
+     */
     public Map<String, Object> read() throws IOException {
         Group next = rowGroupReader.next();
-        System.out.println(next);
-
-
-
-
-        return null;
+        if (next == null) {
+            return null;
+        }
+        return Record.normalize(next);
     }
 
     @Override
-    public void close() throws Exception {
-        rowGroupReader.close();
+    public void close() {
+        try {
+            rowGroupReader.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Error when closing RecordStream reader", e);
+        }
     }
 
     static class DataStreamRowGroupReader implements AutoCloseable {
@@ -45,9 +55,9 @@ public class DataStream implements AutoCloseable {
         private RecordReader<Group> groupReader;
         private long groupsRemaining;
 
-        DataStreamRowGroupReader(SeekableByteChannel data, MessageType schema) throws IOException {
+        DataStreamRowGroupReader(SeekableByteChannel file, MessageType schema) throws IOException {
 
-            this.fileReader = ParquetFileReader.open(new SeekableByteChannelInputFile(data));
+            this.fileReader = ParquetFileReader.open(new SeekableByteChannelInputFile(file));
 
             PageReadStore rowGroup = this.fileReader.readNextRowGroup();
             if (rowGroup == null) {
