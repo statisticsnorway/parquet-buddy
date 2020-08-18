@@ -17,7 +17,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-class LongRunningDataTest {
+class LongRunningFileTest {
 
     @Disabled("Not meant to be run on a regular basis")
     @Test
@@ -89,7 +89,7 @@ class LongRunningDataTest {
 
         FileInputStream inputStream = new FileInputStream("/tmp/1591961879973-10000000.json");
 
-        Data.writeJson(inputStream, Path.of(String.format("/tmp/%s.parquet", System.currentTimeMillis())), schema);
+        File.writeJson(inputStream, Path.of(String.format("/tmp/%s.parquet", System.currentTimeMillis())), schema);
     }
 
     @Disabled("Not meant to be run on a regular basis")
@@ -98,7 +98,7 @@ class LongRunningDataTest {
         SeekableByteChannel fileChannel = FileChannel.open(Path.of("/tmp/1592205620655.parquet"));
 
         Instant start = Instant.now();
-        List<Object> objects = Data.readColumn(fileChannel, "/person/name/firstName");
+        List<Object> objects = File.readColumn(fileChannel, "/person/name/firstName");
         Duration duration = Duration.between(start, Instant.now());
 
         System.out.println("Read " + objects.size() + " columns " + duration.toMillis() + " ms");

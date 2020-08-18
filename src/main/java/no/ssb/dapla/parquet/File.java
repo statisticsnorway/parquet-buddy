@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Data provides methods for reading and writing parquet.
+ * Utility functions for working with parquet files.
  */
-public class Data {
+public class File {
 
     /**
      * readColumn returns all values in a given column, specified by a glob. For glob syntax see:
@@ -128,6 +128,14 @@ public class Data {
         }
 
         return values;
+    }
+
+    public static InputStream readJson(SeekableByteChannel data, MessageType schema, Set<String> globPatterns) throws IOException {
+        return readJson(data, Schema.createProjection(schema, globPatterns));
+    }
+
+    public static InputStream readJson(SeekableByteChannel data, MessageType schema) throws IOException {
+        throw new RuntimeException("Not implemented yet!");
     }
 
     /**
