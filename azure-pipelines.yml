@@ -8,7 +8,7 @@ trigger:
 
 jobs:
   - job: testAndBuild
-    container: maven:3-jdk-14
+    container: maven@sha256:6d837359937c7aa0449e1dab864bb5c69c7cac896da8776d9c90fd25ed41ea12 # maven:3.6.3-openjdk-15
     pool:
       vmImage: 'ubuntu-latest'
     variables:
@@ -25,7 +25,7 @@ jobs:
             maven | "$(Agent.OS)"
             maven
           path: $(MAVEN_CACHE_FOLDER)
-      
+
       #Authenticate with maven
       - task: MavenAuthenticate@0
         displayName: 'Authenticate'
@@ -39,7 +39,7 @@ jobs:
            goals: 'compile'
            options: '-P ssb-bip -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
            mavenOptions: '$(MAVEN_OPTS)'
-      
+
       #Run tests
       - task: Maven@3
         displayName: 'Test'
@@ -47,7 +47,7 @@ jobs:
            goals: 'verify test'
            options: '-P ssb-bip --batch-mode'
            mavenOptions: '$(MAVEN_OPTS)'
-      
+
       #Deploy artifact upon creating a tag
       - task: Maven@3
         displayName: 'Publish'
