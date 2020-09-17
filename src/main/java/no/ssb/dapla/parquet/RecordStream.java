@@ -20,7 +20,7 @@ public class RecordStream implements AutoCloseable {
 
     private final DataStreamRowGroupReader rowGroupReader;
 
-    RecordStream(SeekableByteChannel file, MessageType schema) throws IOException {
+    public RecordStream(SeekableByteChannel file, MessageType schema) throws IOException {
         this.rowGroupReader = new DataStreamRowGroupReader(file, schema);
     }
 
