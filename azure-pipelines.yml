@@ -32,26 +32,18 @@ jobs:
         inputs:
           mavenServiceConnections: 'mvnSsbBipPublic, mvnSsbBipReleases, mvnSsbBipSnapshots'
 
-      #Build
+      #Test and build
       - task: Maven@3
-        displayName: 'Compile'
-        inputs:
-           goals: 'compile'
-           options: '-P ssb-bip -DskipTests=true -Dmaven.javadoc.skip=true --batch-mode'
-           mavenOptions: '$(MAVEN_OPTS)'
-
-      #Run tests
-      - task: Maven@3
-        displayName: 'Test'
+        displayName: 'Test and build'
         inputs:
            goals: 'verify test'
            options: '-P ssb-bip --batch-mode'
            mavenOptions: '$(MAVEN_OPTS)'
 
-      #Deploy artifact upon creating a tag
+      #Publish build artifact
       - task: Maven@3
-        displayName: 'Publish'
-        condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+        displayName: 'Publish build artifact'
+        condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/')) # When a tag is pushed
         inputs:
            goals: 'clean deploy'
            options: '-P ssb-bip -DskipTests=true --batch-mode'
