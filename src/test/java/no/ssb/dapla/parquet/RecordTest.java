@@ -7,6 +7,7 @@ import org.apache.parquet.schema.MessageTypeParser;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,46 @@ class RecordTest {
         wantRootMap.put("aliases", aliasesList);
 
         Map<String, Object> gotRootMap = Record.normalize(root);
+        assertThat(gotRootMap).isEqualTo(wantRootMap);
+    }
+
+    @Test
+    void thatInterceptorWorks() {
+        MessageType schema = MessageTypeParser.parseMessageType("""
+                message root {
+                   required group person {
+                       required group name {
+                            required binary firstName (STRING);
+                            required binary surname (STRING);
+                       }
+                   }
+                }
+                """);
+
+        GroupType personType = (GroupType) schema.getType("person");
+        GroupType nameType = (GroupType) personType.getType("name");
+
+        SimpleGroup name = new SimpleGroup(nameType);
+        name.add("firstName", Base64.getEncoder().encodeToString("Donald".getBytes()));
+        name.add("surname", Base64.getEncoder().encodeToString("Duck".getBytes()));
+
+        SimpleGroup person = new SimpleGroup(personType);
+        person.add("name", name);
+
+        SimpleGroup root = new SimpleGroup(schema);
+        root.add("person", person);
+
+        Map<String, Object> nameMap = new HashMap<>();
+        nameMap.put("firstName", "Donald");
+        nameMap.put("surname", "Duck");
+
+        Map<String, Object> personMap = new HashMap<>();
+        personMap.put("name", nameMap);
+
+        Map<String, Object> wantRootMap = new HashMap<>();
+        wantRootMap.put("person", personMap);
+
+        Map<String, Object> gotRootMap = Record.normalize(root, (field, value) -> new String(Base64.getDecoder().decode(value)));
         assertThat(gotRootMap).isEqualTo(wantRootMap);
     }
 
