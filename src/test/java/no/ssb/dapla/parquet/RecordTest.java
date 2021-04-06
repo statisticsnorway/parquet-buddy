@@ -156,6 +156,7 @@ class RecordTest {
                        required group name {
                             required binary firstName (STRING);
                             required binary surname (STRING);
+                            optional int32 age (INTEGER(32, true));
                        }
                        optional group addresses (LIST) {
                            repeated group array {
@@ -179,6 +180,7 @@ class RecordTest {
         SimpleGroup name = new SimpleGroup(nameType);
         name.add("firstName", "Donald");
         name.add("surname", "Duck");
+        name.add("age", 42);
 
         SimpleGroup firstAddress = new SimpleGroup(addressesArrayType);
         firstAddress.add("streetName", "Duckburg Lane 1");
@@ -209,6 +211,7 @@ class RecordTest {
                   name
                     firstName: Donald
                     surname: Duck
+                    age: 42
                   addresses
                     array
                       streetName: Duckburg Lane 1
@@ -226,6 +229,7 @@ class RecordTest {
         Map<String, Object> nameMap = new HashMap<>();
         nameMap.put("firstName", "Donald");
         nameMap.put("surname", "Duck");
+        nameMap.put("age", "42");
 
         Map<String, Object> firstAddressMap = new HashMap<>();
         firstAddressMap.put("streetName", "Duckburg Lane 1");

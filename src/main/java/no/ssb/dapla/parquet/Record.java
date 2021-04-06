@@ -63,7 +63,8 @@ public class Record {
                     //Assume it's safe to always use index=0 here
                     map.put(fieldName, processGroup(group.getGroup(fieldName, 0), fieldInterceptor, fieldPath));
                 } else if (fieldType instanceof PrimitiveType) {
-                    map.put(fieldName, fieldInterceptor.intercept(fieldPath, group.getString(fieldName, 0)));
+                    String s = group.getValueToString(group.getType().getFieldIndex(fieldName), 0);
+                    map.put(fieldName, fieldInterceptor.intercept(fieldPath, s));
                 }
             }
             return map;
